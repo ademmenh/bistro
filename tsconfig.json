@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "strict": true,
+
+    "noImplicitOverride": true,
+
+    // "noUnusedParameters": true,
+    // "noUnusedLocals": true,
+    "noImplicitReturns": true,
+
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "removeComments": true
+  }
+}
