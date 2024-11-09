@@ -7,12 +7,16 @@ const schemaMeal = new mongoose.Schema({
         require: true,
         unique: true,
     },
-    price: {
-        type: Number,
+    genre: {
+        type: String,
         require: true,
     },
     discription: {
         type: String,
+        require: true,
+    },
+    price: {
+        type: Number,
         require: true,
     },
     available: {
@@ -21,4 +25,4 @@ const schemaMeal = new mongoose.Schema({
     }
 })
 
-const Meal = mongoose.model('Meal', schemaMeal)
+export const Meal = mongoose.model('Meal', schemaMeal)
