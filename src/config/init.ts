@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 import {app} from './../main'
 
 dotenv.config()
-const PORT = process.env.PORT
+const PORT = Number(process.env.PORT)
 const DB_URI = process.env.DB_URI as string
 
 export const initServer = async () => {

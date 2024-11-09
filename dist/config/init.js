@@ -8,7 +8,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const main_1 = require("./../main");
 dotenv_1.default.config();
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT);
 const DB_URI = process.env.DB_URI;
 const initServer = async () => {
     try {
