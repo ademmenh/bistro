@@ -16,7 +16,7 @@ export const bodyFilter = (body: Filter) => {
     }
 
     if (body.price.minp && body.price.maxp) {
-        filter['$and'] = {price: {$gte: body.price.minp, $lte: body.price.maxp}}
+        filter['$and'] = [{price: {$gte: body.price.minp}}, {price: {$lte: body.price.maxp}}]
     }
 
     return filter
