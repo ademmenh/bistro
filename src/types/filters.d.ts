@@ -1,29 +1,9 @@
 
-
-
-declare interface GetQueryFilter {
+declare interface QueryFilter {
     name?: string,
     genre?: string,
     price?: string,
     available?: boolean,
-    $and?: {}[],
-    $or?: {}[],
-
-}
-
-declare interface PutQueryFilter {
-    name?: string,
-    genre?: string,
-    price?: string,
-    available?: boolean,
-    $and?: {}[],
-    $or?: {}[],
-}
-
-declare interface DeleteQueryFilter {
-    name?: string,
-    genre?: string,
-    price?: string,
     $and?: {}[],
     $or?: {}[],
 }

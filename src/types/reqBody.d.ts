@@ -1,6 +1,4 @@
 
-
-
 declare interface PostBody {
     name: string,
     genre: string,

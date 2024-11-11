@@ -3,7 +3,7 @@ import {Request, Response} from 'express'
 import mongoose from 'mongoose'
 
 import {Meal} from './../db/meal'
-import {getFilter, putFilter, deleteFilter} from './../services/queryFilter'
+import {filter} from './../services/filter'
 
 
 export const postMeals = async (req: Request, res: Response) => {       
@@ -45,8 +45,8 @@ export const getMealsById = async (req: Request, res: Response) => {
 export const getMeals = async (req: Request, res: Response) => {
 
     try {
-        let filter = getFilter(req.query)
-        let meals = await Meal.find(filter)
+        let filtr = filter(req.query as Query)
+        let meals = await Meal.find(filtr)
         res.status(200).json({data: meals})
         return
 
@@ -69,21 +69,6 @@ export const putMealsById = async (req: Request, res: Response) => {
     }
 }
 
-
-export const putMeals = async (req: Request, res: Response) => {
-    
-    try {
-        let filter = putFilter(req.query)
-        let message = await Meal.updateMany(filter, req.body)
-        res.status(200).json({message: message})
-        return
-
-    } catch (err) {
-        res.status(500).json({error: "Internal Server Error"})
-    }
-}
-
-
 export const deleteMealsById = async (req: Request, res: Response) => {
 
     try {
@@ -102,18 +87,5 @@ export const deleteMealsById = async (req: Request, res: Response) => {
         } else {
             res.status(500).json({error: "Internal Server Error"})
         }
-    }
-}
-
-export const deleteMeals = async (req: Request, res: Response) => {
-
-    try {
-        let filter = deleteFilter(req.query)
-        let message = await Meal.deleteMany(filter)
-        res.status(200).json({message: message})
-        return
-
-    } catch (err) {
-        res.status(500).json({error: "Internal Server Error"})
     }
 }
