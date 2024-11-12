@@ -3,7 +3,7 @@ import {Request, Response} from 'express'
 import mongoose from 'mongoose'
 
 import {Meal} from './../db/meal'
-import {filter} from './../services/filter'
+import {queryFilter} from './../services/queryfilter'
 
 
 export const postMeals = async (req: Request, res: Response) => {       
@@ -45,8 +45,8 @@ export const getMealsById = async (req: Request, res: Response) => {
 export const getMeals = async (req: Request, res: Response) => {
 
     try {
-        let filtr = filter(req.query as Query)
-        let meals = await Meal.find(filtr)
+        let filter = queryFilter(req.query as Query)
+        let meals = await Meal.find(filter)
         res.status(200).json({data: meals})
         return
 
@@ -56,7 +56,7 @@ export const getMeals = async (req: Request, res: Response) => {
 }
 
 
-export const putMealsById = async (req: Request, res: Response) => {
+export const patchMealsById = async (req: Request, res: Response) => {
     
     try {
         let id = req.params.id
@@ -87,5 +87,19 @@ export const deleteMealsById = async (req: Request, res: Response) => {
         } else {
             res.status(500).json({error: "Internal Server Error"})
         }
+    }
+}
+
+
+export const deleteMeals = async (req: Request, res: Response) => {
+
+    try {
+        let filter = queryFilter(req.body)
+        let message = await Meal.deleteMany(filter)
+        res.status(200).json({message: message})
+        return
+    
+    } catch (err) {
+        res.status(500).json({error: "Internal Server Error"})
     }
 }
