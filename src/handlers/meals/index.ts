@@ -2,15 +2,18 @@
 import {Request, Response} from 'express'
 import mongoose from 'mongoose'
 
-import {Meal} from './../db/meal'
-import {queryFilter} from './../services/queryfilter'
+import {Meal} from './../../db/meal'
+import { getMealsQueryFilter, patchMealsBodyFilter } from '../../utils/filters/mealsfilters'
+
+
 
 
 export const postMeals = async (req: Request, res: Response) => {       
-    
+    const {name, genre, price, available, description} = req.body
+
     try {
-        let reqMeal = new Meal(req.body)
-        let meal = await reqMeal.save()
+        let newMeal = new Meal({name, genre, price, available, description})
+        let meal = await newMeal.save()
         res.status(200).json({data: meal})
         return;
 
@@ -42,11 +45,14 @@ export const getMealsById = async (req: Request, res: Response) => {
 }
 
 
+const LIMIT = 12    // for pagination
 export const getMeals = async (req: Request, res: Response) => {
 
     try {
-        let filter = queryFilter(req.query as Query)
-        let meals = await Meal.find(filter)
+        let filter = getMealsQueryFilter(req.query)
+        let page = Number(filter.page)
+        let skip = page * LIMIT
+        let meals = await Meal.find().skip(skip).limit(LIMIT)
         res.status(200).json({data: meals})
         return
 
@@ -57,17 +63,24 @@ export const getMeals = async (req: Request, res: Response) => {
 
 
 export const patchMealsById = async (req: Request, res: Response) => {
-    
+
     try {
+        const {name, genre, price, available, description } = req.body
+        console.log(req.body)
         let id = req.params.id
-        let meal = await Meal.findByIdAndUpdate(id, req.body, {returnDocument: 'after'})
+        let filter = patchMealsBodyFilter({name, genre, price, available, description})
+        let meal = await Meal.findByIdAndUpdate(id, filter, {returnDocument: 'after'})
+        console.log('after')
+        console.log(meal)
         res.status(200).json({data: meal})
         return
 
     } catch (err) {
+        // console.log(err)
         res.status(500).json({error: "Internal Server Error"})
     }
 }
+
 
 export const deleteMealsById = async (req: Request, res: Response) => {
 
@@ -87,19 +100,5 @@ export const deleteMealsById = async (req: Request, res: Response) => {
         } else {
             res.status(500).json({error: "Internal Server Error"})
         }
-    }
-}
-
-
-export const deleteMeals = async (req: Request, res: Response) => {
-
-    try {
-        let filter = queryFilter(req.body)
-        let message = await Meal.deleteMany(filter)
-        res.status(200).json({message: message})
-        return
-    
-    } catch (err) {
-        res.status(500).json({error: "Internal Server Error"})
     }
 }

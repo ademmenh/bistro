@@ -1,7 +1,7 @@
 
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
-import {app} from './../main'
+import {app} from './../'
 
 dotenv.config()
 const PORT = Number(process.env.PORT)
