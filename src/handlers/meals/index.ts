@@ -3,8 +3,7 @@ import {Request, Response} from 'express'
 import mongoose from 'mongoose'
 
 import {Meal} from './../../db/meal'
-import { getMealsQueryFilter, patchMealsBodyFilter } from '../../utils/filters/mealsfilters'
-
+import { getMealsQueryFilter, patchMealsBodyFilter } from './filters'
 
 
 

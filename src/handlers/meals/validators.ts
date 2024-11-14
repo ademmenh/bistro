@@ -17,9 +17,9 @@ let genre = [
 export const idValidator = [
     param('id')
         .isString()
-        .withMessage("the Id invalid")
+        .withMessage("invalid Id type")
         .notEmpty()
-        .withMessage("the Id is required")
+        .withMessage("required Id")
 
 ]
 
@@ -27,7 +27,7 @@ export const idValidator = [
 export const getMealsQueryValidator = [
     query('page')
     .isInt({min: 0})
-    .withMessage('the page is Invalid')
+    .withMessage('Invalid page')
     .optional()
 
 ]
@@ -36,23 +36,23 @@ export const getMealsQueryValidator = [
 export const postMealsBodyValidator = [
     body('name')
     .isString()
-    .withMessage('the name type is not String')
+    .withMessage('Invalid name type')
     .isLength({min:3, max: 20})
-    .withMessage('the name length out of [3-20]'),
+    .withMessage('Invalid name legnth'),
 
     body('genre')
     .isString()
-    .withMessage('the genre type is not String')
+    .withMessage('Invalid genre type')
     .isIn(genre)
-    .withMessage('the genre invalid'),
+    .withMessage('Invalid genre value'),
 
     body('available')
     .isBoolean()
-    .withMessage('the available type is not Boolean'),
+    .withMessage('Invalid available type'),
 
     body('price')
     .isInt({min: 0})
-    .withMessage('the price is Invalid')
+    .withMessage('Invalid price type')
 
 ]
 
@@ -60,33 +60,34 @@ export const postMealsBodyValidator = [
 export const patchMealsBodyValidator = [
     body('name')
     .isString()
-    .withMessage('the name type is not String')
+    .withMessage('Invalid name type')
     .isLength({min: 3, max: 20})
-    .withMessage('the name length is out of [3-20]')
+    .withMessage('Invalid name length')
     .optional(),
 
     body('genre')
     .isString()
-    .withMessage('the genre type is not String')
+    .withMessage('Invalid genre type')
     .isIn(genre)
-    .withMessage('the genre Invalid')
+    .withMessage('Invalid genre value')
     .optional(),
 
     body('available')
     .isBoolean()
-    .withMessage('the available type is not Boolean')
+    .withMessage('Invalid available type')
     .optional(),
 
     body('price')
     .isNumeric()
-    .withMessage('the price type is not Number')
+    .withMessage('Invalid price type')
+    .isInt({min: 0})
     .optional(),
 
     body('description')
     .isString()
-    .withMessage('the description type is not String')
+    .withMessage('Invalid description type')
     .isLength({max: 100})
-    .withMessage('the description length is out of [0-50]')
+    .withMessage('Invalid description length')
     .optional(),
 
 ]
