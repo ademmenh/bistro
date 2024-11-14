@@ -9,20 +9,26 @@ const PurchaseSchema = new mongoose.Schema({
 
     },
 
-    mealsId: {
+    mealId: {
         type: String,
         required: true,
 
     },
 
-    complited: {
-        type: Boolean,
+    date: {
+        type: Date,
         required: true,
+
+    },
+
+    completed: {
+        type: Boolean,
+        default: false,
 
     },
 
 })
 
 PurchaseSchema.index({complited: 1})
-
+PurchaseSchema.index({date: 1})
 export const Purchase = mongoose.model('Purchase', PurchaseSchema)

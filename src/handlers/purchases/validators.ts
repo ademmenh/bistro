@@ -28,11 +28,6 @@ export const postPurchasesBodyValidator = [
     .isString()
     .withMessage('Invalid mealId type'),
 
-    body('completed')
-    .isBoolean()
-    .withMessage('Invalid completed type'),
-
-
 ]
 
 

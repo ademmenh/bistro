@@ -2,15 +2,16 @@
 import { Request, Response } from "express"
 import mongoose from 'mongoose'
 import {Purchase} from './../../db/purchase'
+import {User} from './../../db/user'
 
 
 
 export const postPurchases = async (req: Request, res: Response): Promise<any> => {
 
     try {
-        const {userId, mealId, completed} = req.body
+        const {userId, mealId} = req.body
         
-        const user = await Purchase.findById(userId)
+        const user = await User.findById(userId)
         if (!userId) {
             res.status(404).json({error: 'Unprocessable Content'})
         }
@@ -20,7 +21,7 @@ export const postPurchases = async (req: Request, res: Response): Promise<any> =
             res.status(404).json({error: 'Unprocessable Content'})
         }
 
-        const reqpurchase = new Purchase({userId, mealId, completed})
+        const reqpurchase = new Purchase({userId, mealId})
         let purchase = await reqpurchase.save()
         res.status(200).json({data: purchase})
         return
