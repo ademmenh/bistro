@@ -4,7 +4,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "start": "node .",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/dev.js\""
+    "dev": "concurrently \"npx tsc --watch\" \"npx nodemon -q dist/dev.js\""
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-validator": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.0"
   },
   "devDependencies": {
@@ -22,6 +23,8 @@
     "@types/express": "^5.0.0",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^22.9.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }

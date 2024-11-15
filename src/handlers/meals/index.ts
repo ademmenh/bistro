@@ -69,7 +69,6 @@ export const patchMealsById = async (req: Request, res: Response) => {
         let id = req.params.id
         let filter = patchMealsBodyFilter({name, genre, price, available, description})
         let meal = await Meal.findByIdAndUpdate(id, filter, {returnDocument: 'after'})
-        console.log('after')
         console.log(meal)
         res.status(200).json({data: meal})
         return
