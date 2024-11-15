@@ -1,8 +1,9 @@
 
 import { Request, Response } from "express"
 import mongoose from 'mongoose'
-import {Purchase} from './../../db/purchase'
+import {Meal} from './../../db/meal'
 import {User} from './../../db/user'
+import {Purchase} from '../../db/purchase'
 
 
 
@@ -10,24 +11,32 @@ export const postPurchases = async (req: Request, res: Response): Promise<any> =
 
     try {
         const {userId, mealId} = req.body
+        const date = new Date()
         
         const user = await User.findById(userId)
-        if (!userId) {
+        if (!user) {
             res.status(404).json({error: 'Unprocessable Content'})
         }
+        console.log(user)
 
-        const meal = await Purchase.findById(mealId)
-        if (mealId) {
+        const meal = await Meal.findById(mealId)
+        if (!meal) {
             res.status(404).json({error: 'Unprocessable Content'})
         }
+        console.log(meal)
 
-        const reqpurchase = new Purchase({userId, mealId})
-        let purchase = await reqpurchase.save()
+        const purchase = await Purchase.create({userId, mealId})
+        console.log('after')
+        
         res.status(200).json({data: purchase})
         return
     
     } catch (err) {
-        res.status(500).json({error: "Internal Server Error"})
+        if (err instanceof mongoose.mongo.MongoServerError) {
+            res.status(422).json({error: "Unprocessable Content"})
+        } else {
+            res.status(500).json({error: "Internal Server Error"})
+        }
     }
 }
 

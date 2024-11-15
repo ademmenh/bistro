@@ -1,22 +1,20 @@
 
+import { timeStamp } from 'console'
 import mongoose from 'mongoose'
 
 
 const PurchaseSchema = new mongoose.Schema({
+
     userId: {
-        type: String,
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
         required: true,
 
     },
 
     mealId: {
-        type: String,
-        required: true,
-
-    },
-
-    date: {
-        type: Date,
+        type: mongoose.Types.ObjectId,
+        ref: 'Meal',
         required: true,
 
     },
@@ -27,8 +25,8 @@ const PurchaseSchema = new mongoose.Schema({
 
     },
 
-})
+}, {timestamps: true})
 
-PurchaseSchema.index({complited: 1})
-PurchaseSchema.index({date: 1})
+PurchaseSchema.index({completed: 1})
+
 export const Purchase = mongoose.model('Purchase', PurchaseSchema)

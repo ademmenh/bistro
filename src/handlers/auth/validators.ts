@@ -45,3 +45,17 @@ export const registerValidator = [
 
     
 ]
+
+
+export const loginValidator = [
+    body('email')
+    .isEmail()
+    .withMessage('Invalid email'),
+
+    body('password')
+    .isString()
+    .withMessage('Invalid password type')
+    .isLength({min: 8, max: 50}),
+
+
+]

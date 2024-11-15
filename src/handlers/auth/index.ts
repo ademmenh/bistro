@@ -18,15 +18,37 @@ export const postAuthRegister = async (req: Request, res: Response, next: NextFu
 
         const hashedPassword = await bcrypt.hash(password, 10)
         console.log(hashedPassword)
-        const newUser = new User({name, lastname, username, birthday, gender, email, password: hashedPassword})
-        const user = await newUser.save()
-        console.log('after')
+        const user = await User.create({name, lastname, username, birthday, gender, email, password: hashedPassword})
         res.status(200).json({data: user})
         return
 
     } catch (err) {
         console.log(err)
         res.status(500).json({error: "Internal Server Error"})
+
+    }
+}
+
+
+export const postAuthLogIn = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+
+    try{
+        const {email, password} = req.body
+
+        const user = await User.findOne({email})
+
+        if (!user) {
+            res.status(422).json({error: "Internal Server Error"})
+            return
+        }
+
+        res.status(200).json({data: user})
+        return
+    
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({error: "Internal Server Error"})
+        return
 
     }
 }
