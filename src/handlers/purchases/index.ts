@@ -16,12 +16,14 @@ export const postPurchases = async (req: Request, res: Response): Promise<any> =
         const user = await User.findById(userId)
         if (!user) {
             res.status(404).json({error: 'Unprocessable Content'})
+            return
         }
         console.log(user)
 
         const meal = await Meal.findById(mealId)
         if (!meal) {
             res.status(404).json({error: 'Unprocessable Content'})
+            return
         }
         console.log(meal)
 
@@ -45,6 +47,9 @@ export const getPurchasesById = async (req: Request, res: Response): Promise<any
     
     try {
         const userId = req.params.id
+        console.log(req.cookies)
+        console.log(req.cookies.token)
+
 
         let purchases = await Purchase.find({userId})
         res.status(200).json({data: purchases})
