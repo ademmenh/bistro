@@ -25,7 +25,7 @@ const PurchaseSchema = new mongoose.Schema({
 
     },
 
-}, {timestamps: true})
+}, {timestamps: {createdAt: "createdAt", updatedAt: false}})
 
 PurchaseSchema.index({completed: 1})
 

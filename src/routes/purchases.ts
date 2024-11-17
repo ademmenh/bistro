@@ -4,9 +4,10 @@ import {postPurchases, getPurchasesById, patchPurchasesById} from './../handlers
 import {userIdValidator, postPurchasesBodyValidator, patchPurchasesBodyValidator} from './../handlers/purchases/validators'
 import {validator} from './../middlewares/validator'
 import { idValidator } from '../handlers/meals/validators'
+import { checkAuth } from '../middlewares/auth'
 
 export const Purchases = Router()
 
-Purchases.route('/').post(postPurchasesBodyValidator, validator, postPurchases)
-Purchases.route('/:userId').get(userIdValidator, validator, getPurchasesById)
+Purchases.route('/').post(checkAuth, postPurchasesBodyValidator, validator, postPurchases)
+Purchases.route('/:userId').get(checkAuth, userIdValidator, validator, getPurchasesById)
 Purchases.route('/:id').patch(idValidator, validator, patchPurchasesById)

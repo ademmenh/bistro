@@ -46,7 +46,7 @@ export const postPurchases = async (req: Request, res: Response): Promise<any> =
 export const getPurchasesById = async (req: Request, res: Response): Promise<any> => {
     
     try {
-        const userId = req.params.id
+        const userId = req.params.userId
         console.log(req.cookies)
         console.log(req.cookies.token)
 

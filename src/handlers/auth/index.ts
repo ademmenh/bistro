@@ -9,6 +9,9 @@ import mongoose from 'mongoose'
 dotenv.config()
 
 const SECRET_KEY = process.env.SECRET_KEY as string
+const TIME = 60 * 24 * 30
+
+
 
 export const postAuthRegister = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
 
@@ -17,7 +20,7 @@ export const postAuthRegister = async (req: Request, res: Response, next: NextFu
         const {name, lastname, username, birthday, gender, email, password} = req.body
 
         let userFound = await User.findOne({email})
-        // console.log(userFound)
+
         if (userFound) {
             res.status(400).json({error: 'Unprocessable Content'})
             return
@@ -27,10 +30,10 @@ export const postAuthRegister = async (req: Request, res: Response, next: NextFu
         const hashedPassword = await bcrypt.hash(password, 10)
         const user = await User.create({name, lastname, username, birthday, gender, email, password: hashedPassword})
         
-        const token = jwt.sign({id: user._id}, SECRET_KEY, {expiresIn: '30d'})
+        const token = jwt.sign({id: user._id}, SECRET_KEY, {expiresIn: TIME})
 
-        res.cookie("token", token, {httpOnly: true, sameSite: 'strict', secure: true})
-        res.status(200).json({data: user})
+        res.cookie("token", token, {httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production'})
+        res.status(200).json({data: user, token: token})
         return
 
     } catch (err) {
@@ -60,30 +63,14 @@ export const postAuthLogIn = async (req: Request, res: Response, next: NextFunct
             return
         }
 
-        const token = jwt.sign({id: user._id}, SECRET_KEY, {expiresIn: "30d"})
-        // console.log(token)
-        res.cookie("token", token, {httpOnly: true, sameSite: true, secure: true})
-        res.status(200).json({data: user})
+        const token = jwt.sign({id: user._id}, SECRET_KEY, {expiresIn: TIME})
+        res.cookie("token", token, {httpOnly: true, sameSite: true, secure: process.env.NODE_ENV === 'production'})
+        res.status(200).json({data: user, token: token})
         return
     
     } catch (err) {
         console.log(err)
         res.status(500).json({error: "Internal Server Error"})
         return
-    }
-}
-
-
-export const postAuthRegister2 = async (req: Request, res: Response, next: NextFunction) => {
-
-    try {
-        const {name, lastname, username, birthday, gender, email, password, abcd} = req.body
-        console.log(name, lastname, username, birthday, gender, email, password, abcd)
-        const user = await User.create({name, lastname, username, birthday, gender, email, password, abcd})
-        res.status(200).json({data: user})
-
-    } catch (err) {
-        console.log(err)
-        res.status(500).json({error: "Internal Server Error"})
     }
 }
