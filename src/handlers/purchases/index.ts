@@ -18,17 +18,14 @@ export const postPurchases = async (req: Request, res: Response): Promise<any> =
             res.status(404).json({error: 'Unprocessable Content'})
             return
         }
-        console.log(user)
 
         const meal = await Meal.findById(mealId)
         if (!meal) {
             res.status(404).json({error: 'Unprocessable Content'})
             return
         }
-        console.log(meal)
 
         const purchase = await Purchase.create({userId, mealId})
-        console.log('after')
         
         res.status(200).json({data: purchase})
         return
@@ -47,9 +44,6 @@ export const getPurchasesById = async (req: Request, res: Response): Promise<any
     
     try {
         const userId = req.params.userId
-        console.log(req.cookies)
-        console.log(req.cookies.token)
-
 
         let purchases = await Purchase.find({userId})
         res.status(200).json({data: purchases})
@@ -70,15 +64,11 @@ export const patchPurchasesById = async (req: Request, res: Response): Promise<a
     try {
         let id = req.params.id
         let filter = req.body.completed
-        console.log('before')
         let purchases = await Purchase.findByIdAndUpdate(id, filter, {returnDocument: 'after'})
-        console.log(purchases)
-        console.log('after')
         res.status(200).json({data: purchases})
         return
 
     } catch (err) {
-        console.log(err)
         res.status(500).json({error: "Internal Server Error"})
     
     }
