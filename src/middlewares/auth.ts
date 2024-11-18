@@ -6,9 +6,7 @@ import dotenv from 'dotenv'
 
 
 dotenv.config()
-
 const SECRET_KEY = process.env.SECRET_KEY as string
-
 
 
 export const checkAuth = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
@@ -21,7 +19,6 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
         }
 
         const bearertoken = authHeader.split(' ')
-        console.log(bearertoken)
         if (bearertoken[0] !== 'Bearer') {
             res.status(403).json({error: "Unauthorized"})
             return
@@ -33,31 +30,30 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
     
         }
 
-        const token = jwt.verify(bearertoken[1], SECRET_KEY)
-        console.log(token)
-        if (!token) {
+        const payload = jwt.verify(bearertoken[1], SECRET_KEY)
+        console.log(payload)
+        if (!payload) {
             res.status(403).json({errors: "Unauthirized"})
             return
         }
-    
-        const id = (token as {id: string}).id
+
+        const id = (payload as {id: string}).id
         if (!id) {
             res.status(403).json({error: "Unauthorized"})
             return
         }
 
         const user = await User.findById(id)
-        console.log(user)
         if (!user) {
             res.status(403).json({error: "Unauthorized"})
             return
 
         }
+
     } catch (err) {
         res.status(403).json({error: "Unauthorized"})
         return
     }
 
     next()
-
 }

@@ -9,7 +9,7 @@ import mongoose from 'mongoose'
 dotenv.config()
 
 const SECRET_KEY = process.env.SECRET_KEY as string
-const TIME = 60 * 24 * 30
+const TIME = Number(process.env.TIME) as number
 
 
 
@@ -32,8 +32,7 @@ export const postAuthRegister = async (req: Request, res: Response, next: NextFu
         
         const token = jwt.sign({id: user._id}, SECRET_KEY, {expiresIn: TIME})
 
-        res.cookie("token", token, {httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production'})
-        res.status(200).json({data: user, token: token})
+        res.status(200).json({data: user, token})
         return
 
     } catch (err) {
@@ -64,12 +63,11 @@ export const postAuthLogIn = async (req: Request, res: Response, next: NextFunct
         }
 
         const token = jwt.sign({id: user._id}, SECRET_KEY, {expiresIn: TIME})
-        res.cookie("token", token, {httpOnly: true, sameSite: true, secure: process.env.NODE_ENV === 'production'})
-        res.status(200).json({data: user, token: token})
+
+        res.status(200).json({data: user, token})
         return
     
     } catch (err) {
-        console.log(err)
         res.status(500).json({error: "Internal Server Error"})
         return
     }
