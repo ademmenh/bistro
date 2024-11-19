@@ -9,6 +9,7 @@ import {Purchase} from '../../db/purchase'
 
 export const postPurchases = async (req: Request, res: Response): Promise<any> => {
 
+    const params = req.params
     try {
         const {userId, mealId} = req.body
         const date = new Date()

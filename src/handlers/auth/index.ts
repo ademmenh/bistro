@@ -1,6 +1,7 @@
 
 import { Request, Response, NextFunction } from 'express'
 import {User} from './../../db/user'
+import {Admin} from './../../db/admin'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
@@ -16,13 +17,14 @@ const TIME = Number(process.env.TIME) as number
 export const postAuthRegister = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
 
     try {
+        let client = req.body
 
         const {name, lastname, username, birthday, gender, email, password} = req.body
 
         let userFound = await User.findOne({email})
 
         if (userFound) {
-            res.status(400).json({error: 'Unprocessable Content'})
+            res.status(400).json({status: 'Unprocessable Content'})
             return
 
         }
@@ -37,9 +39,9 @@ export const postAuthRegister = async (req: Request, res: Response, next: NextFu
 
     } catch (err) {
         if (err instanceof mongoose.mongo.MongoServerError) {
-            res.status(422).json({error: "Unprocessable Content"})
+            res.status(422).json({status: "Unprocessable Content"})
         } else {
-            res.status(500).json({error: "Internal Server Error"})
+            res.status(500).json({status: "Internal Server Error"})
         }
 
     }
@@ -53,12 +55,12 @@ export const postAuthLogIn = async (req: Request, res: Response, next: NextFunct
         const user = await User.findOne({email})
 
         if (!user) {
-            res.status(422).json({error: "Unprocessable Content"})
+            res.status(422).json({status: "Unprocessable Content"})
             return
         }
 
         if (! await bcrypt.compare(password, user.password)) {
-            res.status(422).json({error: "Unprocessable Content"})
+            res.status(422).json({status: "Unprocessable Content"})
             return
         }
 
@@ -68,7 +70,33 @@ export const postAuthLogIn = async (req: Request, res: Response, next: NextFunct
         return
     
     } catch (err) {
-        res.status(500).json({error: "Internal Server Error"})
+        res.status(500).json({status: "Internal Server Error"})
+        return
+    }
+}
+
+
+
+export const postAuthAdminLogIn = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+
+    try {
+        const {email, password}= req.body
+        const admin = await Admin.findOne({email})
+
+        if (!admin) {
+            res.status(422).json({status: "Unprocessable Content"})
+            return
+        }
+
+        if (!await bcrypt.compare(password, admin.password)) {
+            res.status(422).json({stats: "Unprocessable Content"})
+        }
+
+        const token = jwt.sign({id: admin.id, isAdmin: true}, SECRET_KEY, {expiresIn: TIME})
+        res.status(200).json({data: admin, token})
+        return
+    } catch (err) {
+        res.status(500).json({status: "Internal Server Error"})
         return
     }
 }

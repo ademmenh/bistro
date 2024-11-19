@@ -3,6 +3,8 @@ import {User} from './../db/user'
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { stat } from 'fs'
+import { Admin } from '../db/admin'
 
 
 dotenv.config()
@@ -31,7 +33,6 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
         }
 
         const payload = jwt.verify(bearertoken[1], SECRET_KEY)
-        console.log(payload)
         if (!payload) {
             res.status(403).json({errors: "Unauthirized"})
             return
@@ -50,10 +51,56 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
 
         }
 
+        next()
+
     } catch (err) {
         res.status(403).json({error: "Unauthorized"})
         return
     }
+}
 
-    next()
+
+export const chcekAdmin = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    
+    try {
+
+        const authHeader = req.headers.authorization
+        if (!authHeader) {
+            res.status(422).json({status: "Unprocessable Content"})
+            return
+        }
+
+        const [bearer, token] = authHeader.split(' ')
+        if (!bearer || !token) {
+            res.status(403).json({status: "Unauthorized"})
+            return
+        }
+
+        const payload = jwt.verify(token, SECRET_KEY)
+        // TODO: log a danger
+        if (!payload) {
+            res.status(403).json({status: "Unauthorized"})
+            return
+        }
+
+        // TODO: log a danger
+        const {id, isAdmin} = payload as {id: string, isAdmin: boolean}
+        if (!id || !isAdmin) {
+            res.status(403).json({status: "Unauthorized"})
+            return
+        }
+
+        // TODO: log a danger
+        const admin = Admin.findById(id)
+        if (!admin) {
+            res.status(403).json({status: "Unauthorized"})
+            return
+        }
+
+        next()
+
+    } catch (err) {
+        res.status(500).json({status: "Internal Server Error"})
+        return
+    }
 }
