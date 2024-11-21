@@ -80,6 +80,7 @@ export const postAuthLogIn = async (req: Request, res: Response, next: NextFunct
 export const postAuthAdminLogIn = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
 
     try {
+
         const {email, password}= req.body
         const admin = await Admin.findOne({email})
 

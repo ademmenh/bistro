@@ -1,29 +1,27 @@
+import { MealI, MealQ } from "../../types/meals"
 
 
 
-export const getMealsQueryFilter = (body: any) => {
+export const getMealsQueryFilter = (query: any) => {
 
-    const filter: GetMealsQueryFilter = {}
+    const filter: MealQ = {}
 
-    if (body.name) {
-        filter.name = body.name
+    if (query.name) {
+        filter.name = query.name
     }
 
-    if (body.genre) {
-        filter.genre = body.genre
+    if (query.genre) {
+        filter.genre = query.genre
     }
 
-    if (body.price) {
-        filter.price = body.price
+    if (query.available) {
+        filter.available = query.available
     }
 
-    if (body.available) {
-        filter.available = body.available
+    if (query.page) {
+        filter.page = query.page
     }
 
-    if (body.page) {
-        filter.page = body.page
-    }
 
     return filter
 }
@@ -31,7 +29,7 @@ export const getMealsQueryFilter = (body: any) => {
 
 export const patchMealsBodyFilter = (body: any) => {
 
-    const filter: PatchMealsBodyFilter = {}
+    const filter: Partial<MealI> = {}
 
     if (body.name) {
         filter.name = body.name

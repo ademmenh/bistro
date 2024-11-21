@@ -4,10 +4,12 @@ import mongoose from 'mongoose'
 
 import {Meal} from './../../db/meal'
 import { getMealsQueryFilter, patchMealsBodyFilter } from './filters'
+import { ParamsI, Req } from '../../types/express'
+import { MealI, MealQ } from '../../types/meals'
 
 
 
-export const postMeals = async (req: Request, res: Response) => {       
+export const postMeals = async (req: Req<{}, {}, MealI>, res: Response) => {       
     const {name, genre, price, available, description} = req.body
 
     try {
@@ -26,7 +28,7 @@ export const postMeals = async (req: Request, res: Response) => {
 }
 
 
-export const getMealsById = async (req: Request, res: Response) => {
+export const getMealsById = async (req: Req<ParamsI>, res: Response) => {
 
     try {
         let id = req.params.id
@@ -45,7 +47,7 @@ export const getMealsById = async (req: Request, res: Response) => {
 
 
 const LIMIT = 12    // for pagination
-export const getMeals = async (req: Request, res: Response) => {
+export const getMeals = async (req: Req<{}, MealQ>, res: Response) => {
 
     try {
         let filter = getMealsQueryFilter(req.query)
@@ -61,7 +63,7 @@ export const getMeals = async (req: Request, res: Response) => {
 }
 
 
-export const patchMealsById = async (req: Request, res: Response) => {
+export const patchMealsById = async (req: Req<ParamsI, {}, Partial<MealI>>, res: Response) => {
 
     try {
         const {name, genre, price, available, description } = req.body
@@ -79,7 +81,7 @@ export const patchMealsById = async (req: Request, res: Response) => {
 }
 
 
-export const deleteMealsById = async (req: Request, res: Response) => {
+export const deleteMealsById = async (req: Req<ParamsI>, res: Response) => {
 
     try {
         let id = req.params.id
