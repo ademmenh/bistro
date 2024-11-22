@@ -1,18 +1,8 @@
 
-import {QueryI} from './express'
-
-
-declare interface PurchaseI {
-    userId: string,
-    mealId: string,
+interface PurchaseI {
+    userId: Types.ObjectId,
+    mealId: Types.ObjectId,
     completed: boolean,
     createdAt: Date,
 
 }
-
-
-declare interface PurchaseQ
-extends QueryI {
-    completed?: boolean,
-}
-

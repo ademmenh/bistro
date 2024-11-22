@@ -1,7 +1,12 @@
 
-import mongoose from 'mongoose'
+import {Schema, model, Document, Model} from 'mongoose'
 
-const MealSchema = new mongoose.Schema({
+export interface MealD
+extends Document, MealI
+{}
+
+
+const MealSchema = new Schema<MealI>({
     name: {
         type: String,
         require: true,
@@ -36,4 +41,4 @@ const MealSchema = new mongoose.Schema({
 
 MealSchema.index({available: 1})
 
-export const Meal = mongoose.model('Meal', MealSchema)
+export const Meal = model<MealI, Model<MealD>>('Meal', MealSchema)

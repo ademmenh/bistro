@@ -1,5 +1,4 @@
 
-
 declare interface JwtUserPayload {
     id: string,
     email: string,

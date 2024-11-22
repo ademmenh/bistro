@@ -1,8 +1,11 @@
 
-import mongoose from 'mongoose'
+import {Schema, model, Model, Document} from 'mongoose'
 
+export interface AdminD
+extends Document, AdminI
+{}
 
-const AdminSchema = new mongoose.Schema({
+const AdminSchema = new Schema<AdminI>({
     name: {
         type: String,
         required: true,
@@ -31,4 +34,4 @@ const AdminSchema = new mongoose.Schema({
     
 })
 
-export const Admin = mongoose.model('Admin', AdminSchema)
+export const Admin = model<AdminI, Model<AdminD>>('Admin', AdminSchema)

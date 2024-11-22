@@ -5,10 +5,8 @@ import {Admin} from './../../db/admin'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
-import mongoose from 'mongoose'
 
 dotenv.config()
-
 const SECRET_KEY = process.env.SECRET_KEY as string
 const TIME = Number(process.env.TIME) as number
 
@@ -24,9 +22,7 @@ export const postAuthRegister = async (req: Request, res: Response, next: NextFu
         let userFound = await User.findOne({email})
 
         if (userFound) {
-            res.status(400).json({status: 'Unprocessable Content'})
-            return
-
+            return res.status(400).json({status: 'Unprocessable Content'})
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -34,16 +30,10 @@ export const postAuthRegister = async (req: Request, res: Response, next: NextFu
         
         const token = jwt.sign({id: user._id}, SECRET_KEY, {expiresIn: TIME})
 
-        res.status(200).json({data: user, token})
-        return
+        return res.status(200).json({data: user, token})
 
     } catch (err) {
-        if (err instanceof mongoose.mongo.MongoServerError) {
-            res.status(422).json({status: "Unprocessable Content"})
-        } else {
-            res.status(500).json({status: "Internal Server Error"})
-        }
-
+            return res.status(500).json({status: "Internal Server Error"})
     }
 }
 
@@ -55,23 +45,19 @@ export const postAuthLogIn = async (req: Request, res: Response, next: NextFunct
         const user = await User.findOne({email})
 
         if (!user) {
-            res.status(422).json({status: "Unprocessable Content"})
-            return
+            return res.status(422).json({status: "Unprocessable Content"})
         }
 
         if (! await bcrypt.compare(password, user.password)) {
-            res.status(422).json({status: "Unprocessable Content"})
-            return
+            return res.status(422).json({status: "Unprocessable Content"})
         }
 
         const token = jwt.sign({id: user._id}, SECRET_KEY, {expiresIn: TIME})
 
-        res.status(200).json({data: user, token})
-        return
+        return res.status(200).json({data: user, token})
     
     } catch (err) {
-        res.status(500).json({status: "Internal Server Error"})
-        return
+        return res.status(500).json({status: "Internal Server Error"})
     }
 }
 
@@ -85,19 +71,17 @@ export const postAuthAdminLogIn = async (req: Request, res: Response, next: Next
         const admin = await Admin.findOne({email})
 
         if (!admin) {
-            res.status(422).json({status: "Unprocessable Content"})
-            return
+            return res.status(422).json({status: "Unprocessable Content"})
         }
 
         if (!await bcrypt.compare(password, admin.password)) {
-            res.status(422).json({stats: "Unprocessable Content"})
+            return res.status(422).json({stats: "Unprocessable Content"})
         }
 
         const token = jwt.sign({id: admin.id, isAdmin: true}, SECRET_KEY, {expiresIn: TIME})
-        res.status(200).json({data: admin, token})
-        return
+        return res.status(200).json({data: admin, token})
+
     } catch (err) {
-        res.status(500).json({status: "Internal Server Error"})
-        return
+        return res.status(500).json({status: "Internal Server Error"})
     }
 }

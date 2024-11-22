@@ -1,8 +1,12 @@
 
-import mongoose from 'mongoose'
+import {Schema, model, Document, Model} from 'mongoose'
+
+export interface UserD
+extends Document, UserI
+{}
 
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema<UserI>({
     name: {
         type: String,
         required: true,
@@ -53,4 +57,4 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.index({username: 1})
 
-export const User = mongoose.model('User', UserSchema)
+export const User = model<UserI, Model<UserD>>('User', UserSchema)

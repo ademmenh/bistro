@@ -1,19 +1,19 @@
 
-import { timeStamp } from 'console'
-import mongoose from 'mongoose'
+import {Schema, model, Types, Document, Model} from 'mongoose'
 
 
-const PurchaseSchema = new mongoose.Schema({
+export interface PurchaseD extends Document, PurchaseI {}
 
+const PurchaseSchema = new Schema<PurchaseI>({
     userId: {
-        type: mongoose.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'User',
         required: true,
 
     },
 
     mealId: {
-        type: mongoose.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'Meal',
         required: true,
 
@@ -29,4 +29,4 @@ const PurchaseSchema = new mongoose.Schema({
 
 PurchaseSchema.index({completed: 1})
 
-export const Purchase = mongoose.model('Purchase', PurchaseSchema)
+export const Purchase = model<PurchaseI, Model<PurchaseD>>('Purchase', PurchaseSchema)
