@@ -20,10 +20,6 @@ export const userIdValidator = [
 
 
 export const postPurchasesBodyValidator = [
-    body('userId')
-    .isString()
-    .withMessage('Invalid userId type'),
-
     body('mealId')
     .isString()
     .withMessage('Invalid mealId type'),
