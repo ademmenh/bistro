@@ -11,14 +11,6 @@ export const idValidator = [
 ]
 
 
-export const userIdValidator = [
-    param('userId')
-    .isString()
-    .withMessage('the userId is invalid'),
-
-]
-
-
 export const postPurchasesBodyValidator = [
     body('mealId')
     .isString()

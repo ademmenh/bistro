@@ -34,19 +34,20 @@ export const postPurchases = async (req: Request, res: Response) => {
 }
 
 
-export const getPurchasesById = async (req: Request, res: Response) => {
+export const getPurchases = async (req: Request, res: Response) => {
     
     try {
-        const userId = req.params.userId
+        const userId = (req.user as UserD)._id
         let purchases = await Purchase.find({userId})
         res.status(200).json({data: purchases})
         return
 
     } catch (err) {
-        res.status(500).json({error: "Internal Server Error"})
+        res.status(500).json({status: "Internal Server Error"})
         return
     }
 }
+
 
 
 export const patchPurchasesById = async (req: Request, res: Response) => {
