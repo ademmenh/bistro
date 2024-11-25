@@ -8,7 +8,6 @@ import {Purchase} from '../../db/purchase'
 
 export const postPurchases = async (req: Request, res: Response) => {
     
-    console.log("entered purchases")
     const params = req.params
     try {
         const {mealId} = req.body
@@ -56,6 +55,7 @@ export const patchPurchasesById = async (req: Request, res: Response) => {
         const id = req.params.id
         const filter = req.body.completed
         const purchases = await Purchase.findByIdAndUpdate(id, filter, {returnDocument: 'after'})
+        
         res.status(200).json({data: purchases})
         return
 

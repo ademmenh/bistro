@@ -1,20 +1,22 @@
 
-import dotenv from 'dotenv'
-import mongoose from 'mongoose'
+import {PORT} from './vars'
 import {app} from './../'
+import { dbConfing } from './db'
 
-dotenv.config()
-const PORT = Number(process.env.PORT)
-const DB_URI = process.env.DB_URI as string
 
 export const initServer = async () => {
     try{
-        await mongoose.connect(DB_URI)
-        console.log("Connected to Database.")
-        app.listen(PORT, () => {
-            console.log(`Server Listen on Port ${PORT} ...`)
-        })
-    } catch {
-        console.log("Connection Failed to DataBase")
+        const connected = await dbConfing()
+        if (connected) {
+            console.log('Running the Server...')
+            app.listen(PORT, () => {
+                console.log(`Server Listen on Port ${PORT} ...`)
+            })
+        }
+
+    } catch (err){
+        console.log("Server failed to start !")
+        console.log(err)
+    
     }
 }

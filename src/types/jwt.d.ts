@@ -10,3 +10,5 @@ declare interface JwtAdminPayload {
     isAdmin: boolean,
 
 }
+
+type JwtPayload = JwtAdminPayload | JwtUserPayload

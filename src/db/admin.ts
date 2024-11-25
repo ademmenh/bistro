@@ -1,9 +1,12 @@
 
 import {Schema, model, Model, Document} from 'mongoose'
+import bcrypt from 'bcrypt'
 
 export interface AdminD
 extends Document, AdminI
-{}
+{
+    passwordMatches (inputPassword: string): Promise<Boolean>
+}
 
 const AdminSchema = new Schema<AdminI>({
     name: {
@@ -33,5 +36,9 @@ const AdminSchema = new Schema<AdminI>({
 
     
 })
+
+AdminSchema.methods.passwrodMatches = async function (inputPassword: string): Promise<Boolean> {
+    return await bcrypt.compare(inputPassword, this.password)
+}
 
 export const Admin = model<AdminI, Model<AdminD>>('Admin', AdminSchema)

@@ -1,10 +1,12 @@
 
-import { Request, Response } from 'express'
+import { MEALS_LIMIT } from '../../config/vars'
+
 import { Meal } from './../../db/meal'
 import { getMealsQueryFilter, patchMealsBodyFilter } from './filters'
 
+import { Request, Response } from 'express'
 
-const MEALS_LIMIT = 12    // for pagination
+
 
 export const postMeals = async (req: Request, res: Response) => {       
     const {name, genre, price, available, description} = req.body

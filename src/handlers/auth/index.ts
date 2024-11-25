@@ -1,18 +1,13 @@
 
-import { Request, Response, NextFunction } from 'express'
 import {User} from './../../db/user'
 import {Admin} from './../../db/admin'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
+import {jwtSign} from './../../utils/jwt'
 
-dotenv.config()
-const SECRET_KEY = process.env.SECRET_KEY as string
-const TIME = 60*24*30
+import { Request, Response} from 'express'
 
 
 
-export const postAuthRegister = async (req: Request, res: Response, next: NextFunction) => {
+export const postAuthRegister = async (req: Request, res: Response) => {
 
     try {
         const {name, lastname, username, birthday, gender, email, password} = req.body
@@ -20,29 +15,25 @@ export const postAuthRegister = async (req: Request, res: Response, next: NextFu
         let userFound = await User.findOne({email})
 
         if (userFound) {
-            console.log("email exist")
             res.status(400).json({status: 'Unprocessable Content'})
             return
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10)
-        const user = await User.create({name, lastname, username, birthday, gender, email, password: hashedPassword})
-        // console.log("after creation")
-        const token = jwt.sign({id: user._id, email}, SECRET_KEY, {expiresIn: TIME})
-        // console.log("after creation")
+        const user = await User.create({name, lastname, username, birthday, gender, email, password})
+        const token = jwtSign({id: (user._id as string), email})
         res.status(200).json({data: user, token})
-        // console.log("after sending")
+
         return
-        
     } catch (err) {
-        console.log(err)
         res.status(500).json({status: "Internal Server Error"})
+        console.log(err)
+
         return
     }
 }
 
 
-export const postAuthLogIn = async (req: Request, res: Response, next: NextFunction) => {
+export const postAuthLogIn = async (req: Request, res: Response) => {
 
     try{
         const {email, password} = req.body
@@ -53,25 +44,26 @@ export const postAuthLogIn = async (req: Request, res: Response, next: NextFunct
             return
         }
 
-        if (! await bcrypt.compare(password, user.password)) {
+        if (! await user.passwrodMatches(password)) {
             res.status(422).json({status: "Unprocessable Content"})
             return
         }
 
-        const token = jwt.sign({id: user._id, email}, SECRET_KEY, {expiresIn: TIME})
-
+        const token = jwtSign({id: user._id as string, email})
         res.status(200).json({data: user, token})
+
         return
-    
     } catch (err) {
         res.status(500).json({status: "Internal Server Error"})
+        console.log(err)
+        
         return
     }
 }
 
 
 
-export const postAuthAdminLogIn = async (req: Request, res: Response, next: NextFunction) => {
+export const postAuthAdminLogIn = async (req: Request, res: Response) => {
 
     try {
 
@@ -83,17 +75,20 @@ export const postAuthAdminLogIn = async (req: Request, res: Response, next: Next
             return
         }
 
-        if (!await bcrypt.compare(password, admin.password)) {
+        const matches = await admin.passwordMatches(password)
+        if (!matches) {
             res.status(422).json({stats: "Unprocessable Content"})
             return
         }
 
-        const token = jwt.sign({id: admin.id, isAdmin: true}, SECRET_KEY, {expiresIn: TIME})
+        const token = jwtSign({id: admin._id as string, isAdmin:true})
         res.status(200).json({data: admin, token})
+        
         return
-
     } catch (err) {
         res.status(500).json({status: "Internal Server Error"})
+        console.log(err)
+
         return
     }
 }
