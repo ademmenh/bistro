@@ -2,7 +2,6 @@
 import { MEALS_LIMIT } from '../../config/vars'
 
 import { Meal } from './../../db/meal'
-import { getMealsQueryFilter, patchMealsBodyFilter } from './filters'
 
 import { Request, Response } from 'express'
 
@@ -42,7 +41,7 @@ export const getMealsById = async (req: Request, res: Response) => {
 export const getMeals = async (req: Request, res: Response) => {
 
     try {
-        const filter = getMealsQueryFilter(req.query)
+        const filter = req.query
         const page = Number(filter.page)
         const skip = page * MEALS_LIMIT
         const meals = await Meal.find().skip(skip).limit(MEALS_LIMIT)
@@ -60,7 +59,7 @@ export const patchMealsById = async (req: Request, res: Response) => {
 
     try {
         const id = req.params.id
-        const filter = patchMealsBodyFilter(req.body)
+        const filter = req.body
         let meal = await Meal.findByIdAndUpdate(id, filter, {returnDocument: 'after'})
          res.status(200).json({data: meal})
         return

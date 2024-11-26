@@ -18,10 +18,8 @@ export const postPurchases = async (req: Request, res: Response) => {
             res.status(404).json({status: 'Unprocessable Content'})
             return
         }
-        // console.log(meal)
 
         const purchase = await Purchase.create({userId, mealId})
-        // console.log(purchase)
         res.status(200).json({data: purchase})
         return
     
