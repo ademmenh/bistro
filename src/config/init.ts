@@ -8,15 +8,15 @@ export const initServer = async () => {
     try{
         const connected = await dbConfing()
         if (connected) {
-            console.log('Running the Server...')
+            // console.log('Running the Server...')
             app.listen(PORT, () => {
-                console.log(`Server Listen on Port ${PORT} ...`)
+                // console.log(`Server Listen on Port ${PORT} ...`)
             })
         }
 
     } catch (err){
-        console.log("Server failed to start !")
-        console.log(err)
+        // console.log("Server failed to start !")
+        // console.log(err)
     
     }
 }

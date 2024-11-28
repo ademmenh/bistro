@@ -7,7 +7,7 @@ export const validator = (req: Request, res: Response, next: NextFunction): any 
     const errors = validationResult(req)
     // console.log(errors)
     if (!errors.isEmpty()){
-        return res.status(422).json({error: "Unprocessable Content"})
+        return res.status(422).json({status: "Unprocessable Content", errors})
     }
     next();
 }

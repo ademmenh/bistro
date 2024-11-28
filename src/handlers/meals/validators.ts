@@ -46,14 +46,14 @@ export const postMealsBodyValidator = [
     .isIn(genre)
     .withMessage('Invalid genre value'),
 
-    body('available')
-    .isBoolean()
-    .withMessage('Invalid available type'),
-
+    body('description')
+    .isString()
+    .withMessage('Invalid description type')
+    .isLength({min: 0, max: 100}),
+    
     body('price')
     .isInt({min: 0})
     .withMessage('Invalid price type')
-
 ]
 
 

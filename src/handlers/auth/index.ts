@@ -15,7 +15,7 @@ export const postAuthRegister = async (req: Request, res: Response) => {
         let userFound = await User.findOne({email})
 
         if (userFound) {
-            res.status(400).json({status: 'Unprocessable Content'})
+            res.status(422).json({status: 'Unprocessable Content'})
             return
         }
 
