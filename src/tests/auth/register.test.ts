@@ -1,63 +1,84 @@
 
-import {app} from '../../'
+import app from './../../index'
+import { disconnect } from '../../config/stop'
+import { dropUser } from '../../db/user'
 
 import request from 'supertest'
 
 
 
-const route = '/auth/register'
+const end_point = '/auth/register'
 
-describe(`POST ${route}`, () => {
-    test('Testing register.\nExpecting 200.', async () => {
-        const response = await request(app).post(route).send({name: "name2", lastname: "lastname2", username: "username2", gender: "M", birthday:"2000-12-20", email: "name2@gmail.com", password: "name2name2"})
+afterAll(async () => {
+    let dropped = await dropUser()
+    while (!dropped) {
+        dropped = await dropUser()
+    }
+    await disconnect()
+})
+
+
+
+describe(`POST ${end_point}`, () => {
+    test('Testing register.', async () => {
+        const response = await request(app).post(end_point).send({name: "name1", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "name1name1"})
     
         expect(response.status).toBe(200)
     })
 })
 
-describe(`POST ${route}`, () => {
-    test('Testing name validator.\nExpecting 422.', async () => {
-        const response = await request(app).post(route).send({name: "n", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "email@gmail.com", password: "name2name"})
+describe(`POST ${end_point}`, () => {
+    test('Testing Excesting Email.', async () => {
+        const response = await request(app).post(end_point).send({name: "name1", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "name1name1"})
     
         expect(response.status).toBe(422)
     })
 })
 
-describe(`POST ${route}`, () => {
-    test('Testing lastname validator.\nExpecting 422.', async () => {
-        const response = await request(app).post(route).send({name: "name1", lastname: "la", username: "username1", gender: "M", birthday:"2000-12-20", email: "email@gmail.com", password: "name2name"})
+
+describe(`POST ${end_point}`, () => {
+    test('Testing name validator.', async () => {
+        const response = await request(app).post(end_point).send({name: "na", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "name1name1"})
     
         expect(response.status).toBe(422)
     })
 })
 
-describe(`POST ${route}`, () => {
-    test('Testing username validator.\nExpecting 422.', async () => {
-        const response = await request(app).post(route).send({name: "name1", lastname: "lastname1", username: "us", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "name2name"})
+describe(`POST ${end_point}`, () => {
+    test('Testing lastname validator.', async () => {
+        const response = await request(app).post(end_point).send({name: "name1", lastname: "la", username: "username1", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "name1name1"})
     
         expect(response.status).toBe(422)
     })
 })
 
-describe(`POST ${route}`, () => {
-    test('Testing gender validator.\nExpecting 422.', async () => {
-        const response = await request(app).post(route).send({name: "name1", lastname: "lastname1", username: "username1", gender: "Z", birthday:"2000-12-20", email: "email@gmail.com", password: "name2name"})
+describe(`POST ${end_point}`, () => {
+    test('Testing username validator.', async () => {
+        const response = await request(app).post(end_point).send({name: "name1", lastname: "lastname1", username: "us", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "name1name1"})
     
         expect(response.status).toBe(422)
     })
 })
 
-describe(`POST ${route}`, () => {
-    test('Testing email validator.\nExpecting 422.', async () => {
-        const response = await request(app).post(route).send({name: "name1", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "email.com", password: "name2name"})
+describe(`POST ${end_point}`, () => {
+    test('Testing gender validator.', async () => {
+        const response = await request(app).post(end_point).send({name: "name1", lastname: "lastname1", username: "username1", gender: "X", birthday:"2000-12-20", email: "name1@gmail.com", password: "name1name1"})
     
         expect(response.status).toBe(422)
     })
 })
 
-describe(`POST ${route}`, () => {
-    test('Testing password validator.\nExpecting 200.', async () => {
-        const response = await request(app).post(route).send({name: "name1", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "email@gmail.com", password: "01"})
+describe(`POST ${end_point}`, () => {
+    test('Testing email validator.', async () => {
+        const response = await request(app).post(end_point).send({name: "name1", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "name1.com", password: "name1name1"})
+    
+        expect(response.status).toBe(422)
+    })
+})
+
+describe(`POST ${end_point}`, () => {
+    test('Testing password validator.', async () => {
+        const response = await request(app).post(end_point).send({name: "name1", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "nam"})
     
         expect(response.status).toBe(422)
     })

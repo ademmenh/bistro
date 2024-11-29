@@ -1,22 +1,23 @@
 
 import {PORT} from './vars'
-import {app} from './../'
+import app from './../'
 import { dbConfing } from './db'
 
 
-export const initServer = async () => {
+
+export const initServer = async (): Promise<void> => {
     try{
         const connected = await dbConfing()
         if (connected) {
-            // console.log('Running the Server...')
-            app.listen(PORT, () => {
-                // console.log(`Server Listen on Port ${PORT} ...`)
+            console.log('Running the Server...')
+            const server= app.listen(PORT, () => {
+                console.log(`Server Listen on Port ${PORT} ...`)
             })
         }
 
     } catch (err){
-        // console.log("Server failed to start !")
-        // console.log(err)
+        console.log("Server failed to start !")
+        console.log(err)
     
     }
 }

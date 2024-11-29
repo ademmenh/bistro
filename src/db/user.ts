@@ -2,16 +2,16 @@
 import {Schema, model, Document, Model} from 'mongoose'
 import bcrypt from 'bcrypt'
 
+
+
 export interface UserD
 extends Document, UserI
 {
-    // name: string
-    // lastname: string
-    // username: string
-    // birthday: Date
-    // gender: Gender
     passwrodMatches (inputPassword: string): Promise<Boolean>
+    dropCollection (Collection: UserM): Promise<Boolean>
 }
+
+export type UserM = Model<UserD>
 
 
 const UserSchema = new Schema<UserI>({
@@ -82,4 +82,18 @@ UserSchema.methods.passwrodMatches = async function (inputPassword: string): Pro
     return await bcrypt.compare(inputPassword, this.password);
 } 
 
-export const User = model<UserI, Model<UserD>>('User', UserSchema)
+export const User = model<UserI, UserM>('User', UserSchema)
+
+
+export const dropUser = async (): Promise <Boolean> => {
+    User.collection.drop()
+        .then(() => {
+            console.log('User collection is dropped.')
+        })
+        .catch(() => {
+            console.log('Error in dropping User Collection')
+            return false
+        })
+    
+    return true
+}
