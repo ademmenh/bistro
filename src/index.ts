@@ -1,4 +1,6 @@
 
+import { NODE_ENV } from './config/vars'
+
 import express from 'express'
 import {initServer} from './config/init'
 import {addRoutes} from './routes/index'
@@ -6,10 +8,10 @@ import {errMiddleware} from './middlewares/error'
 
 
 
-const app = express()
+export const app = express()
 app.use(express.json())
 addRoutes(app)
-initServer()
+if (NODE_ENV !== 'test') {
+    initServer(app)
+}
 app.use(errMiddleware)
-
-export default app;

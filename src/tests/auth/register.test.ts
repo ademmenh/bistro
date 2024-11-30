@@ -1,23 +1,25 @@
 
-import app from './../../index'
+import { app } from './../../index'
 import { disconnect } from '../../config/stop'
 import { dropUser } from '../../db/user'
+import { dbConfing } from '../../config/db'
 
 import request from 'supertest'
 
 
 
-const end_point = '/auth/register'
+
+beforeAll(async () => {
+    await dbConfing()
+})
 
 afterAll(async () => {
-    let dropped = await dropUser()
-    while (!dropped) {
-        dropped = await dropUser()
-    }
+    await dropUser()
     await disconnect()
 })
 
 
+const end_point = '/auth/register'
 
 describe(`POST ${end_point}`, () => {
     test('Testing register.', async () => {

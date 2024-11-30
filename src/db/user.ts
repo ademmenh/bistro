@@ -84,16 +84,13 @@ UserSchema.methods.passwrodMatches = async function (inputPassword: string): Pro
 
 export const User = model<UserI, UserM>('User', UserSchema)
 
-
-export const dropUser = async (): Promise <Boolean> => {
-    User.collection.drop()
-        .then(() => {
-            console.log('User collection is dropped.')
-        })
-        .catch(() => {
-            console.log('Error in dropping User Collection')
-            return false
-        })
-    
-    return true
+export const dropUser = async (): Promise<boolean> => {
+    try {
+        await User.collection.drop();
+        console.log('User collection is dropped.');
+        return true
+    } catch (error) {
+        console.log('Error in dropping User Collection.\n', error);
+        return false
+    }
 }

@@ -5,9 +5,7 @@ import {Schema, model, Document, Model} from 'mongoose'
 
 export interface MealD
 extends Document, MealI
-{
-    dropCollection (): Promise<Boolean>
-}
+{}
 
 
 export type MealM = Model<MealD> 
@@ -48,17 +46,15 @@ const MealSchema = new Schema<MealI>({
 
 MealSchema.index({available: 1})
 
-MealSchema.methods.dropCollection = async function (): Promise<Boolean> {
-    await Meal.collection.drop()
-        .then(() => {
-            console.log('Meal Collection is dropped.')
-        })
-        .catch(() => {
-            console.log('Error in dropping Meal Collection')
-            return false
-        })
-    
-    return true
-}
-
 export const Meal = model<MealI, MealM>('Meal', MealSchema)
+
+export const dropMeal = async (): Promise<boolean> => {
+    try {
+        await Meal.collection.drop();
+        console.log('User collection is dropped.');
+        return true
+    } catch (error) {
+        console.log('Error in dropping User Collection.\n', error);
+        return false
+    }
+}

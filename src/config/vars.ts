@@ -12,3 +12,4 @@ export const TOKEN_EXPIRATION_TIME = Number(process.env.TOKEN_EXPIRATION_TIME)
 // console.log(TOKEN_EXPIRATION_TIME)
 export const MEALS_LIMIT = 12
 // console.log(MEALS_LIMIT)
+export const NODE_ENV = process.env.NODE_ENV
