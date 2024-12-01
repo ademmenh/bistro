@@ -5,4 +5,7 @@ module.exports = {
     transform: {
       '^.+\\.(ts|tsx)$': 'ts-jest', // Transform .ts and .tsx files using ts-jest
     },
+
+    testTimeout: 10000,
+    testPathIgnorePatterns: ["/node_modules", "/dist"],
   }

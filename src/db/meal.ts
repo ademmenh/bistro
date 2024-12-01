@@ -1,5 +1,5 @@
 
-import {Schema, model, Document, Model} from 'mongoose'
+import {Schema, model, Document, Model, Types} from 'mongoose'
 
 
 
@@ -12,6 +12,14 @@ export type MealM = Model<MealD>
 
 
 const MealSchema = new Schema<MealI>({
+    mealId: {
+        type: Types.ObjectId,
+        required: true,
+        unique: true,
+        ref: "MealId",
+                
+    },
+
     name: {
         type: String,
         require: true,
@@ -39,7 +47,7 @@ const MealSchema = new Schema<MealI>({
     
     available: {
         type: Boolean,
-        require: true,
+        default: false,
     
     }
 })

@@ -1,5 +1,5 @@
 
-import {Schema, model, Model, Document} from 'mongoose'
+import {Schema, model, Model, Document, Types} from 'mongoose'
 import bcrypt from 'bcrypt'
 
 export interface AdminD
@@ -9,6 +9,7 @@ extends Document, AdminI
 }
 
 const AdminSchema = new Schema<AdminI>({
+    
     name: {
         type: String,
         required: true,
@@ -37,7 +38,7 @@ const AdminSchema = new Schema<AdminI>({
     
 })
 
-AdminSchema.methods.passwrodMatches = async function (inputPassword: string): Promise<Boolean> {
+AdminSchema.methods.passwordMatches = async function (inputPassword: string): Promise<Boolean> {
     return await bcrypt.compare(inputPassword, this.password)
 }
 

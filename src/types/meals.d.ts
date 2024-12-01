@@ -1,6 +1,6 @@
 
 interface MealI {
-    name: string,
+    name: String,
     genre: string,
     description: string,
     price: number,

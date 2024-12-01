@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node .",
     "dev": "concurrently \"npx tsc --watch\" \"npx nodemon -q dist/dev.js\"",
-    "test": "npx jest ./src",
+    "test": "npx jest ./src --maxWorkers=1",
     "build": "npx tsc"
   },
   "author": "",

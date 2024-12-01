@@ -31,7 +31,7 @@ describe(`POST ${end_point}`, () => {
 
 describe(`POST ${end_point}`, () => {
     test('Testing Excesting Email.', async () => {
-        const response = await request(app).post(end_point).send({name: "name1", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "name1name1"})
+        const response = await request(app).post(end_point).send({name: "name11", lastname: "lastname11", username: "username11", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "name1name1"})
     
         expect(response.status).toBe(422)
     })

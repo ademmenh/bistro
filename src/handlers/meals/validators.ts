@@ -54,6 +54,7 @@ export const postMealsBodyValidator = [
     body('price')
     .isInt({min: 0})
     .withMessage('Invalid price type')
+
 ]
 
 

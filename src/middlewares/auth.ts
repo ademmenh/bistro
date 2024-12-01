@@ -36,7 +36,6 @@ export const isUser = async (req: Request, res: Response, next: NextFunction) =>
         }
 
         const user = await User.findById(id)
-        console.log(typeof user)
         // TODO: log a warning
         if (!user) {
             res.status(403).json({status: "Unauthorized"})

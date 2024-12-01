@@ -5,13 +5,6 @@ import {Schema, model, Types, Document, Model} from 'mongoose'
 export interface PurchaseD extends Document, PurchaseI {}
 
 const PurchaseSchema = new Schema<PurchaseI>({
-    userId: {
-        type: Types.ObjectId,
-        ref: 'User',
-        required: true,
-
-    },
-
     mealId: {
         type: Types.ObjectId,
         ref: 'Meal',
