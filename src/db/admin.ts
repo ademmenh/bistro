@@ -9,7 +9,6 @@ extends Document, AdminI
 }
 
 const AdminSchema = new Schema<AdminI>({
-    
     name: {
         type: String,
         required: true,

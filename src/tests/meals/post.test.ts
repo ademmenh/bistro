@@ -14,7 +14,8 @@ import request from 'supertest'
 let jwt = ''
 beforeAll(async () => {
     await dbConfing()
-    const response = await request(app).post('/auth/admin/logIn').send({email: "name1@gmail.com", password: "name1name1"})
+    const response = await request(app).post('/auth/admin/logIn')
+        .send({email: "name1@gmail.com", password: "name1name1"})
     jwt = response.body.token
 })
 

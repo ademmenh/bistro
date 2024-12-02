@@ -13,13 +13,13 @@ export const postMeals = async (req: Request, res: Response) => {
     try {
         let newMeal = new Meal({name, genre, price, available, description})
         const meal = await newMeal.save()
-        const { _id } = meal.id.toHexString()
-        console.log({data: meal, _id})
-        res.status(200).json({data: meal, _id})
+        console.log({data: meal})
+        res.status(200).json({data: meal})
 
         return
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({status: "Internal Server Error"})
         return
     }
@@ -35,8 +35,8 @@ export const getMealsById = async (req: Request, res: Response) => {
         return
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({status: "Internal Server Error"})
-        // console.log(err)
         return
     }
 }
@@ -54,7 +54,7 @@ export const getMeals = async (req: Request, res: Response) => {
 
     } catch (err) {
         res.status(500).json({status: "Internal Server Error"})
-        // console.log(err)
+        console.log(err)
         return
     }
 }
@@ -71,14 +71,13 @@ export const patchMealsById = async (req: Request, res: Response) => {
             res.status(422).json({status: "Unprocessable Content"})
             return            
         }
-        const { _id } = meal.id.toHexString()
 
          res.status(200).json({data: meal})
         return
 
     } catch (err) {
         res.status(500).json({status: "Internal Server Error"})
-        // console.log(err)
+        console.log(err)
         return
     }
 }
@@ -97,7 +96,7 @@ export const deleteMealsById = async (req: Request, res: Response) => {
         return
     
     } catch (err) {
-        // console.log(err)
+        console.log(err)
         res.status(500).json({status: "Internal Server Error"})
         return
     }

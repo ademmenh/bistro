@@ -12,14 +12,6 @@ export type MealM = Model<MealD>
 
 
 const MealSchema = new Schema<MealI>({
-    mealId: {
-        type: Types.ObjectId,
-        required: true,
-        unique: true,
-        ref: "MealId",
-                
-    },
-
     name: {
         type: String,
         require: true,

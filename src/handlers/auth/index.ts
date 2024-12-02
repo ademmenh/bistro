@@ -25,8 +25,8 @@ export const postAuthRegister = async (req: Request, res: Response) => {
 
         return
     } catch (err) {
-        res.status(500).json({status: "Internal Server Error"})
         console.log(err)
+        res.status(500).json({status: "Internal Server Error"})
 
         return
     }

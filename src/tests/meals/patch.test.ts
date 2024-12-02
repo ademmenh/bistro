@@ -21,13 +21,15 @@ beforeAll(async () => {
     const response = await request(app).post('/auth/admin/logIn')
                                         .send({email: "name1@gmail.com", password: "name1name1"})
     jwt = response.body.token
+    // console.log(`token: ${jwt}`)
+
     const response2 = await request(app)
             .post(end_point)
             .send({name: "meal1", genre: "Italian", description: "meal1 description", price: 100})
             .set('Authorization', `Bearer ${jwt}`)
     console.log(`response2: ${response2}`)
-    id = response2.body._id.toString()
-    console.log(`id: ${id}`)
+    id = response2.body.data._id
+    // console.log(`id: ${id}`)
 })
 
 afterAll(async () => {
@@ -125,7 +127,7 @@ describe(`PATCH ${end_point}`, () => {
     test ('Unvalid meals price patch.', async () => {
         const response = await request(app)
             .patch(end_point+`/${id}`)
-            .send({price: 100})
+            .send({price: -100})
             .set('Authorization', `Bearer ${jwt}`)
 
         expect(response.status).toBe(422)
