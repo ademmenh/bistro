@@ -1,6 +1,6 @@
 
-import {TOKEN_EXPIRATION_TIME} from './vars'
+import {JWT_EXPIRATION_TIME} from './vars'
 
 export const jwtConfig = {
-    expiresIn: TOKEN_EXPIRATION_TIME
+    expiresIn: JWT_EXPIRATION_TIME
 }

@@ -12,7 +12,7 @@ export const isUser = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const authHeader = req.headers.authorization
         if (!authHeader) {
-            res.status(422).json({status: "Unprocessable Content"})
+            res.status(403).json({status: "Unprocessable Content"})
             return
         }
 
@@ -59,7 +59,7 @@ export const isAdmin = async (req: Request, res: Response, next: NextFunction) =
 
         const authHeader = req.headers.authorization
         if (!authHeader) {
-            res.status(422).json({status: "Unprocessable Content"})
+            res.status(403).json({status: "Unprocessable Content"})
             return
         }
 

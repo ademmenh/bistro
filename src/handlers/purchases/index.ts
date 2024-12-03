@@ -15,7 +15,7 @@ export const postPurchases = async (req: Request, res: Response) => {
 
         const meal = await Meal.findById(mealId)
         if (!meal) {
-            res.status(404).json({status: 'Unprocessable Content'})
+            res.status(422).json({status: 'Unprocessable Content'})
             return
         }
 
@@ -40,6 +40,7 @@ export const getPurchases = async (req: Request, res: Response) => {
         return
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({status: "Internal Server Error"})
         return
     }
@@ -52,12 +53,14 @@ export const patchPurchasesById = async (req: Request, res: Response) => {
     try {
         const id = req.params.id
         const filter = req.body.completed
-        const purchases = await Purchase.findByIdAndUpdate(id, filter, {returnDocument: 'after'})
-        
-        res.status(200).json({data: purchases})
+        const purchase = await Purchase.findByIdAndUpdate(id, {completed: filter}, {returnDocument: 'after'})
+        // console.log("purchase:" + purchase)
+        res.status(200).json({data: purchase})
+        // console.log('after 200 ok')
         return
 
     } catch (err) {
+        console.log("err:", err)
         res.status(500).json({error: "Internal Server Error"})
         return
         

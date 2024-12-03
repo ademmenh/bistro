@@ -6,7 +6,7 @@ import {param, body} from 'express-validator'
 export const idValidator = [
     param('id')
     .isString()
-    .withMessage('the userId is invalid'),
+    .withMessage('the purchaseId is invalid'),
 
 ]
 
@@ -21,7 +21,7 @@ export const postPurchasesBodyValidator = [
 
 export const patchPurchasesBodyValidator = [
     body('completed')
-    .isBoolean()
-    .withMessage('Invalid completed type'),
+      .isBoolean()
+      .withMessage('Invalid completed type')
 
 ]

@@ -9,6 +9,7 @@ import request from 'supertest'
 
 
 beforeAll(async () => {
+    // console.log(process.env)
     await dbConfing()
     await request(app).post('/auth/register').send({name: "name1", lastname: "lastname1", username: "username1", gender: "M", birthday:"2000-12-20", email: "name1@gmail.com", password: "name1name1"})
 })

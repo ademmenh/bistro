@@ -10,6 +10,7 @@ import request from 'supertest'
 
 
 beforeAll(async () => {
+    // console.log(process.env)
     await dbConfing()
 })
 

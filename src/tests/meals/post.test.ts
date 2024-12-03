@@ -13,6 +13,7 @@ import request from 'supertest'
 
 let jwt = ''
 beforeAll(async () => {
+    // console.log(process.env)
     await dbConfing()
     const response = await request(app).post('/auth/admin/logIn')
         .send({email: "name1@gmail.com", password: "name1name1"})
