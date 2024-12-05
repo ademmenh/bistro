@@ -23,5 +23,6 @@ export const patchPurchasesBodyValidator = [
     body('completed')
       .isBoolean()
       .withMessage('Invalid completed type')
-
+      .isIn([true])
+      .withMessage('Invalid completed value')
 ]

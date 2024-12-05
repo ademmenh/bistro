@@ -1,6 +1,6 @@
 
-import { app } from './../../'
-import { disconnect } from '../../config/stop'
+import { app } from './../../app'
+import { disconnect } from '../../config/db'
 import { dropUser } from '../../db/user'
 import { dbConfing } from '../../config/db'
 

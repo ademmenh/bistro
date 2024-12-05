@@ -1,5 +1,5 @@
 
-import { JWT_SECRET_KEY } from '../config/vars'
+import { JWT_SECRET_KEY } from '../config/exist'
 
 import {jwtConfig} from './../config/jwt'
 

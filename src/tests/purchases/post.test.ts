@@ -1,8 +1,8 @@
 
 import { dbConfing } from '../../config/db'
-import { disconnect } from '../../config/stop'
+import { disconnect } from '../../config/db'
 
-import { app } from './../../'
+import { app } from './../../app'
 import { dropMeal } from '../../db/meal'
 import { dropPurchase } from '../../db/purchase'
 import { dropUser } from '../../db/user'

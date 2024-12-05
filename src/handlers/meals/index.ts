@@ -1,5 +1,6 @@
 
-import { MEALS_LIMIT } from '../../config/vars'
+// import { MEALS_LIMIT } from '../../config/vars'
+import { MEALS_LIMIT } from '../../config/exist'
 
 import { Meal } from './../../db/meal'
 

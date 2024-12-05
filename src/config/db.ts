@@ -1,5 +1,5 @@
 
-import { DB_URI } from './vars'
+import { DB_URI } from './exist'
 
 import mongoose from 'mongoose'
 
@@ -19,4 +19,8 @@ export const dbConfing = async (): Promise<Boolean> => {
 
         return false
     }
+}
+
+export const disconnect = async () => {
+    await mongoose.disconnect()
 }

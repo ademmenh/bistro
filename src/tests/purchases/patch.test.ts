@@ -1,8 +1,8 @@
 
 import { dbConfing } from '../../config/db'
-import { disconnect } from '../../config/stop'
+import { disconnect } from '../../config/db'
 
-import { app } from './../../'
+import { app } from './../../app'
 import { dropMeal } from '../../db/meal'
 import { dropPurchase } from '../../db/purchase'
 import { dropUser } from '../../db/user'
@@ -85,7 +85,7 @@ describe(`PATCH ${end_point}`, () => {
     test('Unvalid purchase completed.', async () => {
         
         const response = await request(app)
-            .post(end_point+`/${purchaseId}`)
+            .patch(end_point+`/${purchaseId}`)
             .send({completed: false})
             .set('Authorization', `Bearer ${jwtAdmin}`)
 

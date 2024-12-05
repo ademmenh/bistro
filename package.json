@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node .",
     "dev": "concurrently \"npx tsc --watch\" \"npx nodemon -q dist/dev.js\"",
-    "test": "npx jest ./src --maxWorkers=1",
+    "test": "cross-env NODE_ENV=test npx jest --setupFiles dotenv/config --no-cache --maxWorkers=1",
     "build": "npx tsc"
   },
   "author": "",
@@ -28,6 +28,7 @@
     "@types/mongoose": "^5.11.96",
     "@types/node": "^22.9.0",
     "@types/supertest": "^6.0.2",
+    "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "nodemon": "^3.1.7",
     "supertest": "^7.0.0",
