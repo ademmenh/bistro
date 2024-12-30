@@ -16,8 +16,8 @@ export const dbConfing = async (): Promise<Boolean> => {
     } catch (err) {
         console.log('failed to connect to DataBase.\n')
         console.log(err)
-
-        return false
+        process.exit(1)
+        
     }
 }
 

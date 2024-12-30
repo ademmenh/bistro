@@ -16,7 +16,7 @@ export const initServer = async (app: Application): Promise<void> => {
             })
         }
 
-    } catch (err){
+    } catch (err) {
         console.log("Server failed to start !")
         console.log(err)
     
